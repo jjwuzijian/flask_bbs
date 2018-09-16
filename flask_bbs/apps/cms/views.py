@@ -7,10 +7,24 @@ import config
 
 bp = Blueprint("cms",__name__,url_prefix="/cms")
 
-@bp.route('/')
+@bp.route('/logout/')
 @login_required
-def index():
-    return "cms index"
+def logout():
+    del session[config.CMS_USER_ID]
+    return redirect(url_for('cms.login'))
+
+@bp.route('/profile/')
+@login_required
+def profile():
+    return render_template('cms/cms_profile.html')
+
+class IndexView(views.MethodView):
+    @login_required
+    def get(self):
+        return render_template('cms/cms_index.html')
+
+    def post(self):
+        pass
 
 class LoginView(views.MethodView):
 
@@ -37,4 +51,16 @@ class LoginView(views.MethodView):
             message = unicode(form.errors.popitem()[1][0],'utf-8')
             return self.get(message=message)
 
+class RsetPwdView(views.MethodView):
+    @login_required
+    def get(self):
+        return render_template('cms/cms_resetpwd.html')
+
+    def post(self):
+        pass
+
+
+
 bp.add_url_rule('/login/',view_func=LoginView.as_view('login'))
+bp.add_url_rule('/',view_func=IndexView.as_view('index'))
+bp.add_url_rule('/resetpwd/',view_func=RsetPwdView.as_view('resetpwd'))

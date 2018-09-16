@@ -1,4 +1,4 @@
-
+{% from "common/_macros.html" import static %}
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -15,7 +15,7 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{ url_for('static',filename='cms/css/signin.css') }}" rel="stylesheet">
+    <link href="{{ static('cms/css/signin.css') }}" rel="stylesheet">
   </head>
 
   <body>
@@ -24,6 +24,7 @@
 
       <form class="form-signin" method="post">
         <h2 class="form-signin-heading">请登录</h2>
+          <input type='hidden' name="csrf_token" value="{{ csrf_token() }}">
         <label for="inputEmail" class="sr-only">邮箱地址</label>
         <input type="email" id="inputEmail" class="form-control" name='email' placeholder="邮箱地址" required autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
