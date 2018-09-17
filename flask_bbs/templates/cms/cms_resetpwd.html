@@ -1,4 +1,5 @@
 {% extends 'cms/cms_base.html' %}
+{% from 'common/_macros.html' import static %}
 {% block title %}修改密码{% endblock %}
 {% block page_title %}密码修改{% endblock %}
 {% block head %}
@@ -7,6 +8,7 @@
             width: 300px;
         }
     </style>
+    <script src="{{ static("cms/js/resetpwd.js") }}"></script>
 {% endblock %}
 {% block main_content %}
 <form action="" method="post">
@@ -14,25 +16,25 @@
       <div class="form-group">
       <div class="input-group">
           <div class="input-group-addon">原密码</div>
-          <input type="text" class="form-control" name="oldpwd" placeholder="请输入原密码">
+          <input type="password" class="form-control" name="oldpwd" placeholder="请输入原密码">
       </div>
   </div>
 
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-addon">新密码</div>
-            <input type="text" class="form-control" name="newpwd" placeholder="请输入新密码">
+            <input type="password" class="form-control" name="newpwd" placeholder="请输入新密码">
         </div>
     </div>
 
     <div class="form-group">
         <div class="input-group">
             <div class="input-group-addon">确认新密码</div>
-            <input type="text" class="form-control" name="newpwd2" placeholder="请再次输入新密码">
+            <input type="password" class="form-control" name="newpwd2" placeholder="请再次输入新密码">
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">修改密码</button>
+    <button type="submit" class="btn btn-primary" id="submit">修改密码</button>
   </div>
 </form>
 {% endblock %}

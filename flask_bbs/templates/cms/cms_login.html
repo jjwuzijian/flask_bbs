@@ -16,12 +16,13 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ static('cms/css/signin.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ static('common/sweetalert/sweetalert.css') }}">
+    <script src="{{ static('common/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ static('common/sweetalert/zlalert.js') }}"></script>
   </head>
 
   <body>
-
     <div class="container">
-
       <form class="form-signin" method="post">
         <h2 class="form-signin-heading">请登录</h2>
           <input type='hidden' name="csrf_token" value="{{ csrf_token() }}">
@@ -35,9 +36,22 @@
           </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+{#          <button class="btn btn-lg btn-primary btn-block" id="submit">登录</button>#}
+{#          <script>#}
+{#              var btn = document.getElementById("submit");#}
+{#              btn.onclick = function () {#}
+{#                  zlalert.alertSuccess('登录成功！')#}
+{#              }#}
+{#          </script>#}
       </form>
         {% if message %}
         <p style="text-align: center;" class="text-danger">{{ message }}</p>
+{#            <script>#}
+{#              var btn = document.getElementById("submit");#}
+{#              btn.onclick = function () {#}
+{#                  zlalert.alertInfo(message)#}
+{#              }#}
+{#          </script>#}
         {% endif %}
     </div> <!-- /container -->
 

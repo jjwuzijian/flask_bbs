@@ -1,8 +1,10 @@
 #endcoding: utf-8
-from flask import Blueprint,views,render_template,request,session,redirect,url_for
-from .forms import LoginFrom
+from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,jsonify
+from .forms import LoginFrom,ResetpwdForm
 from .models import CMSUser
 from .decorators import login_required
+from exts import db
+from utils import restful
 import config
 
 bp = Blueprint("cms",__name__,url_prefix="/cms")
@@ -46,9 +48,8 @@ class LoginView(views.MethodView):
                 return redirect(url_for('cms.index'))
             else:
                 return self.get(message='邮箱或者密码错误')
-
         else:
-            message = unicode(form.errors.popitem()[1][0],'utf-8')
+            message = unicode(form.get_error(),'utf-8')
             return self.get(message=message)
 
 class RsetPwdView(views.MethodView):
@@ -57,7 +58,20 @@ class RsetPwdView(views.MethodView):
         return render_template('cms/cms_resetpwd.html')
 
     def post(self):
-        pass
+        form = ResetpwdForm(request.form)
+        if form.validate():
+            oldpwd = form.oldpwd.data
+            newpwd = form.newpwd.data
+            user = g.cms_user
+            if user.check_password(oldpwd):
+                user.password = newpwd
+                db.session.commit()
+                return restful.success()
+            else:
+                return restful.params_error('旧密码错误')
+        else:
+            message = unicode(form.get_error(),'utf-8')
+            return restful.params_error(message)
 
 
 
