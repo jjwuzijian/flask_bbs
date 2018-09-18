@@ -1,11 +1,11 @@
 #endcoding: utf-8
 from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,jsonify
-from .forms import LoginFrom,ResetpwdForm
+from .forms import LoginFrom,ResetpwdForm,ResetEmailForm
 from .models import CMSUser
 from .decorators import login_required
 from exts import db,mail
 from flask_mail import Message
-from utils import restful
+from utils import restful,zlcache
 import string,random
 import config
 
@@ -37,7 +37,10 @@ def email_chptcha():
         mail.send(message)
     except:
         return restful.server_error()
+    zlcache.set(email,chptcha)
+    # print zlcache.cache.get(email)
     return restful.success()
+
 
 class IndexView(views.MethodView):
     @login_required
@@ -95,7 +98,14 @@ class RsetEmailView(views.MethodView):
         return render_template('cms/cms_resetemail.html')
 
     def post(self):
-        pass
+        form = ResetEmailForm(request.form)
+        if form.validate():
+            email = form.email.data
+            g.cms_user.email = email
+            db.session.commit()
+            return restful.success()
+        else:
+            return restful.params_error(form.get_error())
 
 bp.add_url_rule('/login/',view_func=LoginView.as_view('login'))
 bp.add_url_rule('/',view_func=IndexView.as_view('index'))
