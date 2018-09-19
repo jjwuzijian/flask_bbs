@@ -61,7 +61,7 @@ def test_permission():
     if user.has_permission(CMSPermission.VISITOR):
         print('有访问者权限')
     else:
-        print('没有访问者权限')
+        print('你没有访问者权限')
 
 if __name__ == "__main__":
     manager.run()
