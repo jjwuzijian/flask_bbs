@@ -41,6 +41,35 @@ def email_chptcha():
     # print zlcache.cache.get(email)
     return restful.success()
 
+@bp.route('/boards/')
+@login_required
+def boards():
+    return render_template('cms/cms_boards.html')
+
+@bp.route('/comments/')
+@login_required
+def comments():
+    return render_template('cms/cms_comments.html')
+
+@bp.route('/croles/')
+@login_required
+def croles():
+    return render_template('cms/cms_croles.html')
+
+@bp.route('/cusers/')
+@login_required
+def cusers():
+    return render_template('cms/cms_cusers.html')
+
+@bp.route('/fusers/')
+@login_required
+def fusers():
+    return render_template('cms/cms_fusers.html')
+
+@bp.route('/posts/')
+@login_required
+def posts():
+    return render_template('cms/cms_posts.html')
 
 class IndexView(views.MethodView):
     @login_required
