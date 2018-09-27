@@ -29,7 +29,7 @@ def create_role():
     visitor.permissons = CMSPermission.VISITOR
     #修改个人信息和管理帖子，管理评论，管理前台用户
     operator = CMSRole(name='operator',desc='管理帖子,管理评论,管理前台用户')
-    operator.permissons = CMSPermission.VISITOR|CMSPermission.COMMENTER|CMSPermission.POSTER|CMSPermission.CMSUSER|CMSPermission.FRONTUSER
+    operator.permissons = CMSPermission.VISITOR|CMSPermission.COMMENTER|CMSPermission.POSTER|CMSPermission.FRONTUSER
     #管理员
     admin = CMSRole(name='admin',desc='管理员')
     admin.permissons = CMSPermission.VISITOR|CMSPermission.POSTER|CMSPermission.COMMENTER|CMSPermission.BOARDER|CMSPermission.FRONTUSER|CMSPermission.CMSUSER

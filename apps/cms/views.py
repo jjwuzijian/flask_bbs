@@ -1,8 +1,8 @@
 #endcoding: utf-8
 from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,jsonify
 from .forms import LoginFrom,ResetpwdForm,ResetEmailForm
-from .models import CMSUser
-from .decorators import login_required
+from .models import CMSUser,CMSPersmission
+from .decorators import login_required,permission_required
 from exts import db,mail
 from flask_mail import Message
 from utils import restful,zlcache
@@ -43,31 +43,37 @@ def email_chptcha():
 
 @bp.route('/boards/')
 @login_required
+@permission_required(CMSPersmission.BOARDER)
 def boards():
     return render_template('cms/cms_boards.html')
 
 @bp.route('/comments/')
 @login_required
+@permission_required(CMSPersmission.COMMENTER)
 def comments():
     return render_template('cms/cms_comments.html')
 
 @bp.route('/croles/')
 @login_required
+@permission_required(CMSPersmission.ADMINER)
 def croles():
     return render_template('cms/cms_croles.html')
 
 @bp.route('/cusers/')
 @login_required
+@permission_required(CMSPersmission.CMSUSER)
 def cusers():
     return render_template('cms/cms_cusers.html')
 
 @bp.route('/fusers/')
 @login_required
+@permission_required(CMSPersmission.FRONTUSER)
 def fusers():
     return render_template('cms/cms_fusers.html')
 
 @bp.route('/posts/')
 @login_required
+@permission_required(CMSPersmission.POSTER)
 def posts():
     return render_template('cms/cms_posts.html')
 
