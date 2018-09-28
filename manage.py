@@ -4,10 +4,13 @@ from flask_migrate import Migrate,MigrateCommand
 from flask_bbs import create_app
 from exts import db
 from apps.cms import models as cms_models
+from apps.fromt import models as fromt_models
 
 CMSUser = cms_models.CMSUser
 CMSRole = cms_models.CMSRole
 CMSPermission = cms_models.CMSPersmission
+
+FrontUser = fromt_models.FrontUser
 
 app = create_app()
 manager = Manager(app)
@@ -19,6 +22,14 @@ manager.add_command('db',MigrateCommand)
 @manager.option('-e','--email',dest='email')
 def create_cms_user(username,password,email):
     user = CMSUser(username=username,password=password,email=email)
+    db.session.add(user)
+    db.session.commit()
+
+@manager.option('-t','--telephone',dest='telephone')
+@manager.option('-u','--username',dest='username')
+@manager.option('-p','--password',dest='password')
+def create_front_user(telephone,username,password):
+    user = FrontUser(telephone=telephone,username=username,password=password)
     db.session.add(user)
     db.session.commit()
 

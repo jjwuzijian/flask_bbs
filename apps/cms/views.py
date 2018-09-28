@@ -38,7 +38,6 @@ def email_chptcha():
     except:
         return restful.server_error()
     zlcache.set(email,chptcha)
-    # print zlcache.cache.get(email)
     return restful.success()
 
 @bp.route('/boards/')
