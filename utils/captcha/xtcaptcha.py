@@ -8,14 +8,14 @@ import string
 # pip install Pillow
 # Image:是一个画板(context),ImageDraw:是一个画笔, ImageFont:画笔的字体
 from PIL import Image,ImageDraw,ImageFont
-from utils import xtcache
+# from utils import xtcache
 
 # Captcha验证码
 
 class Captcha(object):
     # 把一些常量抽取成类属性
     #字体的位置
-    font_path = 'utils/captcha/Courgette-Regular.ttf'
+    font_path = 'utils/captcha/segoeuib.ttf'
     #生成几位数的验证码
     number = 4
     #生成验证码图片的宽度和高度
@@ -66,6 +66,7 @@ class Captcha(object):
     @classmethod
     def gene_code(cls):
         width,height = cls.size #宽和高
+        print cls.font_path, cls.fontsize
         image = Image.new('RGBA',(width,height),cls.bgcolor) #创建图片
         font = ImageFont.truetype(cls.font_path,cls.fontsize) #验证码的字体
         draw = ImageDraw.Draw(image)  #创建画笔
@@ -84,11 +85,11 @@ class Captcha(object):
         return (text,image)
 
 
-    @classmethod
-    def check_captcha(cls,captcha):
-        captcha_lower = captcha.lower()
-        if xtcache.get(captcha_lower):
-            xtcache.delete(captcha_lower)
-            return True
-        else:
-            return False
+    # @classmethod
+    # def check_captcha(cls,captcha):
+    #     captcha_lower = captcha.lower()
+    #     if xtcache.get(captcha_lower):
+    #         xtcache.delete(captcha_lower)
+    #         return True
+    #     else:
+    #         return False

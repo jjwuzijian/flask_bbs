@@ -82,7 +82,6 @@ class IndexView(views.MethodView):
         return render_template('cms/cms_index.html')
 
 class LoginView(views.MethodView):
-
     def get(self,message=None):
         return render_template('cms/cms_login.html',message=message)
 
