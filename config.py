@@ -1,3 +1,4 @@
+# _*_ coding: utf-8 _*_
 import os
 
 SECRET_KEY = os.urandom(24)
@@ -18,3 +19,9 @@ MAIL_USE_TLS = True
 MAIL_USERNAME = '2662147461@qq.com'
 MAIL_PASSWORD = 'ilhxkotdnsnuebfi'
 MAIL_DEFAULT_SENDER = '2662147461@qq.com'
+
+
+ALIDAYU_APP_KEY = '23709557'
+ALIDAYU_APP_SECRET = 'd9e430e0a96e21c92adacb522a905c4b'
+ALIDAYU_SIGN_NAME = u'小饭桌应用'
+ALIDAYU_TEMPLATE_CODE = 'SMS_68465012'

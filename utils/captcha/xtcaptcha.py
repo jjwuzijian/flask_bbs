@@ -66,7 +66,6 @@ class Captcha(object):
     @classmethod
     def gene_code(cls):
         width,height = cls.size #宽和高
-        print cls.font_path, cls.fontsize
         image = Image.new('RGBA',(width,height),cls.bgcolor) #创建图片
         font = ImageFont.truetype(cls.font_path,cls.fontsize) #验证码的字体
         draw = ImageDraw.Draw(image)  #创建画笔
