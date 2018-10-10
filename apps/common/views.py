@@ -27,6 +27,7 @@ def sms_captcha():
     if form.validate():
         telephone = form.telephone.data
         captcha = xtcaptcha.Captcha.gene_text()
+        print(u'短信验证码是：',captcha)
         if alidayu.send_sms(telephone,code=captcha):
             zlcache.set(telephone,captcha)
             return restful.success()
