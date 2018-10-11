@@ -1,66 +1,12 @@
+{% extends 'front/front_signbase.html' %}
 {% from "common/_macros.html" import static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>注册页面</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js"></script>
-    <script src="{{ static('common/zlparam.js') }}"></script>
-    <script src="{{ static('common/zlajax.js') }}"></script>
-    <link rel="stylesheet" href="{{ static('common/sweetalert/sweetalert.css') }}">
-    <script src="{{ static('common/sweetalert/sweetalert.min.js') }}"></script>
-    <script src="{{ static('common/sweetalert/zlalert.js') }}"></script>
+{% block title %}注册页面{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static('front/css/front_signup.css') }}">
     <script src="{{ static('front/js/front_signup.js') }}"></script>
-    <style>
-        body{
-            background: #f3f3f3;
-        }
-        .outer-box{
-            width: 854px;
-            background: #fff;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        .logo-box{
-            text-align: center;
-            padding-top: 40px;
-        }
-        .logo-box img{
-            width: 60px;
-            height: 60px;
-        }
-        .page-title{
-            text-align: center;
-        }
-        .sign-box{
-            width: 300px;
-            margin: 0 auto;
-            padding-top: 50px;
-        }
-        .captcha-addon{
-            padding: 0;
-            overflow: hidden;
-        }
-        .captcha-img{
-            width: 94px;
-            height: 32px;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-    <div class="outer-box">
-        <div class="logo-box">
-            <a href="/">
-                <img src="{{ static('common/images/logo.png') }}" alt="">
-            </a>
-        </div>
-        <h2 class="page-title">BBS账号登录</h2>
-        <div class="sign-box">
+{% endblock %}
+{% block h2_block %}BBS账号注册{% endblock %}
+{% block signbox %}
             <div class="form-group">
                 <div class="input-group">
                     <input type="text" class="form-control" name="telephone" placeholder="手机号码">
@@ -90,9 +36,7 @@
                 </div>
             </div>
             <div class="form-group">
+                <span style="display: none;" id="return_to_span">{{ return_to }}</span>
                 <button id='submit-btn' class="btn btn-warning btn-block" >立即注册</button>
             </div>
-        </div>
-    </div>
-</body>
-</html>
+{% endblock %}

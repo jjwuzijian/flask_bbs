@@ -1,0 +1,29 @@
+{% extends 'front/front_signbase.html' %}
+{% from "common/_macros.html" import static %}
+{% block title %}登录页面{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static('front/css/front_signup.css') }}">
+    <script src="{{ static('front/js/front_signin.js') }}"></script>
+{% endblock %}
+{% block h2_block %}BBS账号登录{% endblock %}
+{% block signbox %}
+    <div class="form-group">
+            <input type="text" class="form-control" name="telephone" placeholder="手机号码">
+    </div>
+    <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="密码">
+    </div>
+    <div class="checkbox">
+        <label >
+            <input type="checkbox" name="remember" value="1">记住我
+        </label>
+    </div>
+    <div class="form-group">
+        <span style="display: none;" id="return_to_span">{{ return_to }}</span>
+        <button id='submit-btn' class="btn btn-warning btn-block" type="submit">立即登录</button>
+    </div>
+    <div class="form-group">
+        <a href="{{ url_for('fromt.signup') }}" class="signup-link">没有密码？立即注册</a>
+        <a href="#" class="resetpwd-link" style="float: right">找回密码？</a>
+    </div>
+{% endblock %}

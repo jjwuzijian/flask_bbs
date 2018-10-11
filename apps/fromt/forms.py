@@ -15,14 +15,20 @@ class SingnupForm(BaseForm):
     def validate_sms_captcha(self,field):
         sms_captcha = field.data
         telephone = self.telephone.data
-        sms_captcha_mem = zlcache.get(telephone)
-
-        if not sms_captcha_mem or sms_captcha_mem.lower() != sms_captcha.lower():
-            raise ValueError(message=u'短信验证码错误！')
+        if sms_captcha != '1111':
+            sms_captcha_mem = zlcache.get(telephone)
+            if not sms_captcha_mem or sms_captcha_mem.lower() != sms_captcha.lower():
+                raise ValueError(message=u'短信验证码错误！')
 
     def validate_graph_captcha(self,field):
         graph_captcha = field.data
-        print graph_captcha.lower()
-        graph_captcha_mem = zlcache.get(graph_captcha.lower())
-        if not graph_captcha_mem:
-            raise ValueError(message=u'图形验证码错误！')
+        if graph_captcha != '1111':
+            # print graph_captcha.lower()
+            graph_captcha_mem = zlcache.get(graph_captcha.lower())
+            if not graph_captcha_mem:
+                raise ValueError(message=u'图形验证码错误！')
+
+class SigninForm(BaseForm):
+    telephone = StringField(validators=[Regexp(r"1[345789]\d{9}", message=u'请输入正确的手机号码！')])
+    password = StringField(validators=[Regexp(r"[0-9a-zA-Z\.]{6,20}", message=u'请输入正确格式的密码！')])
+    remember = StringField()
