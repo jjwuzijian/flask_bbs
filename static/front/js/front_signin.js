@@ -23,6 +23,7 @@ $(function(){
             },
             'success': function (data) {
                 if(data['code'] == 200){
+
                     var return_to = $("#return-to-span").text();
                     if(return_to){
                         window.location = return_to;

@@ -76,6 +76,11 @@ def fusers():
 def posts():
     return render_template('cms/cms_posts.html')
 
+@bp.route('/banners/')
+@login_required
+def banners():
+    return render_template('cms/cms_banners.html')
+
 class IndexView(views.MethodView):
     @login_required
     def get(self):

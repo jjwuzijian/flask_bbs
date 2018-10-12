@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a href="{{ url_for('fromt.signup') }}">注册</a>
-</body>
-</html>
+{% extends 'front/front_base.html' %}
+{% from "common/_macros.html" import static %}
+{% block title %}首页{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static('front/css/front_base.css') }}">
+    <link rel="stylesheet" href="{{ static('front/css/front_index.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="lg-container">
+    <div id="carousel-example-generic" class="carousel slide index-banner" data-ride="carousel">
+  <!-- 指示器 -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+  </ol>
+
+  <!-- 轮播图 -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+        <a href="#">
+            <img src="https://static-image.xfz.cn/1539052376_789.jpg" alt="...">
+        </a>
+    </div>
+    <div class="item">
+        <a href="#">
+            <img src="https://static-image.xfz.cn/1537511352_611.jpeg" alt="...">
+        </a>
+    </div>
+    <div class="item">
+    <a href="#">
+        <img src="https://static-image.xfz.cn/1538132995_441.png" alt="...">
+    </a>
+    </div>
+    <div class="item">
+    <a href="#">
+        <img src="https://static-image.xfz.cn/1534832411_527.jpg" alt="...">
+    </a>
+    </div>
+    ...
+  </div>
+
+  <!-- 左右切换控制器 -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+    </div>
+
+    <div class="sm-container"></div>
+{% endblock %}

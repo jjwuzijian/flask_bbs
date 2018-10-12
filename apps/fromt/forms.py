@@ -12,6 +12,7 @@ class SingnupForm(BaseForm):
     password2 = StringField(validators=[EqualTo("password1",message=u'两次输入密码不一致！')])
     graph_captcha = StringField(validators=[Regexp(r"\w{4}",message=u"请输入正确的图形验证码！")])
 
+    #定义新的form规则格式为 validate_*(*为前面定义的表单名称)
     def validate_sms_captcha(self,field):
         sms_captcha = field.data
         telephone = self.telephone.data

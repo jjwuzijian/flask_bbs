@@ -9,15 +9,12 @@ import config
 bp = Blueprint("fromt",__name__)
 
 @bp.route('/')
-def index():
-    return "fromt index"
-
-@bp.route('/index/')
 def front_index():
     return render_template('front/front_index.html')
 
 class SignupView(views.MethodView):
     def get(self):
+        #获取原URL
         return_to = request.referrer
         if return_to and return_to != request.url:
             return render_template('front/front_signup.html',return_to=return_to)
@@ -30,6 +27,7 @@ class SignupView(views.MethodView):
             telephone = form.telephone.data
             username = form.username.data
             password = form.password1.data
+            # model提交数据
             user = FrontUser(telephone=telephone,username=username,password=password)
             db.session.add(user)
             db.session.commit()
@@ -47,6 +45,7 @@ class SigninView(views.MethodView):
 
     def post(self):
         form = SigninForm(request.form)
+        #form表单验证
         if form.validate():
             telephone = form.telephone.data
             password = form.password.data
