@@ -1,7 +1,8 @@
 #endcoding: utf-8
 from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,jsonify
-from .forms import LoginFrom,ResetpwdForm,ResetEmailForm
+from .forms import LoginFrom,ResetpwdForm,ResetEmailForm,AddBannerForm
 from .models import CMSUser,CMSPersmission
+from ..models import BannerModel
 from .decorators import login_required,permission_required
 from exts import db,mail
 from flask_mail import Message
@@ -80,6 +81,22 @@ def posts():
 @login_required
 def banners():
     return render_template('cms/cms_banners.html')
+
+@bp.route('/abanner/',methods=['POST'])
+@login_required
+def abanner():
+    form = AddBannerForm(request.form)
+    if form.validate():
+        name = form.name.data
+        image_url = form.image_url.data
+        link_url = form.link_url.data
+        priority = form.priority.data
+        banner = BannerModel(name=name,image_url=image_url,link_url=link_url,profile=priority)
+        db.session.add(banner)
+        db.session.commit()
+        return restful.success()
+    else:
+        return restful.params_error(message=form.get_error())
 
 class IndexView(views.MethodView):
     @login_required
