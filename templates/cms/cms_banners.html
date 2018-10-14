@@ -1,19 +1,17 @@
 {% extends 'cms/cms_base.html' %}
+{% from "common/_macros.html" import static %}
 {% block title %}
     轮播图管理
 {% endblock %}
 
 {% block head %}
+
     <style>
-    .top-box{
-        overflow: hidden;
-        background: #ecedf0;
-        padding: 10px;
-    }
     .top-box button{
         float: right;
     }
     </style>
+    <script src="{{ static('cms/js/banners.js') }}"></script>
 {% endblock %}
 
 {% block page_title %}
@@ -36,7 +34,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr></tr>
+            {% for banner in banners %}
+                <tr data-name="{{ banner.name }}" data-image="{{ banner.image_url }}" data-link="{{ banner.link_url }}" data-priority="{{ banner.priority }}" data-id="{{ banner.id }}">
+                    <td>{{ banner.name }}</td>
+                    <td><a href="{{ banner.image_url }}" target="_blank">{{ banner.image_url }}</a></td>
+                    <td><a href="{{ banner.link_url }}" target="_blank">{{ banner.link_url }}</a></td>
+                    <td>{{ banner.priority }}</td>
+                    <td>{{ banner.create_time }}</td>
+                    <td>
+                        <button class="btn btn-defauult btn-xs edit-banner-btn">编辑</button>
+                        <button class="btn btn-danger btn-xs delete-banner-btn">删除</button>
+                    </td>
+                </tr>
+            {% endfor %}
+
         </tbody>
     </table>
 
@@ -81,9 +92,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary">保存</button>
+        <button type="button" class="btn btn-primary" id="save-banner-btn">保存</button>
       </div>
     </div>
   </div>
 </div>
+
 {% endblock %}

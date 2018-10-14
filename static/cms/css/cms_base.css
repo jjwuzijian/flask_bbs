@@ -191,3 +191,9 @@ body {
     background: #ecedf0;
     overflow: hidden;
 }
+
+.top-box{
+        overflow: hidden;
+        background: #ecedf0;
+        padding: 10px;
+    }
