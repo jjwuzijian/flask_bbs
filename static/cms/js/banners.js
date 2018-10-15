@@ -108,3 +108,16 @@ $(function(){
         });
     });
 });
+
+
+$(function () {
+    zlqiniu.setUp({
+        'domain': 'http://127.0.0.1:800/',
+        'browse_btn': 'upload-btn',
+        'uptoken_url': '/c/uptoken/',
+        'success': function (up,file,info) {
+            var imageInput = $("input[name='image_url']");
+            imageInput.val(file.name);
+        }
+    });
+});
