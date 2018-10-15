@@ -47,3 +47,4 @@ def graph_captcha():
     resp = make_response(out.read())
     resp.content_type = 'image/png'
     return  resp
+
