@@ -3,6 +3,7 @@ from flask import Blueprint,views,render_template,request,session,redirect,url_f
 from .forms import SingnupForm,SigninForm
 from utils import restful
 from .models import FrontUser
+from ..models import BannerModel
 from exts import db
 import config
 
@@ -10,7 +11,11 @@ bp = Blueprint("fromt",__name__)
 
 @bp.route('/')
 def front_index():
-    return render_template('front/front_index.html')
+    banners = BannerModel.query.order_by(BannerModel.priority.desc()).limit(4)
+    context = {
+        'banners':banners
+    }
+    return render_template('front/front_index.html',**context)
 
 class SignupView(views.MethodView):
     def get(self):

@@ -115,7 +115,8 @@ $(function () {
         'browse_btn': 'upload-btn',
         'uptoken_url': '/c/uptoken/',
         'success': function (up,file,info) {
-            var imageInput = $("input[name='image_url']");
+            var imageInput = $("input[name='img-url']");
+            // console.log()
             imageInput.val(file.name);
         }
     });

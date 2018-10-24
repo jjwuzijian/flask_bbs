@@ -7,7 +7,7 @@ from flask import g
 
 class LoginFrom(BaseForm):
     email = StringField(validators=[Email(message=u'请输入正确的邮箱信息'),InputRequired(message=u'请输入邮箱')])
-    password = StringField(validators=[Length(6,20,message=u'请输入正确的密码')])
+    password = StringField(validators=[Length(4,20,message=u'请输入正确的密码')])
     remember = IntegerField()
 
 class ResetpwdForm(BaseForm):
@@ -40,3 +40,6 @@ class AddBannerForm(BaseForm):
 
 class UpdateBannerForm(AddBannerForm):
     banner_id = IntegerField(validators=[InputRequired(message='请输入轮播图ID')])
+
+class AddBoardsForm(BaseForm):
+    name = StringField(validators=[InputRequired(message='请输入板块名称')])

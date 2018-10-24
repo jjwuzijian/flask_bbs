@@ -5,7 +5,7 @@ from flask_bbs import create_app
 from exts import db
 from apps.cms import models as cms_models
 from apps.fromt import models as fromt_models
-from apps.models import BannerModel
+from apps.models import BannerModel,BoardsModel
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')

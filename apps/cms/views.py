@@ -1,6 +1,6 @@
 #endcoding: utf-8
 from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,jsonify
-from .forms import LoginFrom,ResetpwdForm,ResetEmailForm,AddBannerForm,UpdateBannerForm
+from .forms import LoginFrom,ResetpwdForm,ResetEmailForm,AddBannerForm,UpdateBannerForm,AddBoardsForm
 from .models import CMSUser,CMSPersmission
 from ..models import BannerModel
 from .decorators import login_required,permission_required
@@ -46,6 +46,15 @@ def email_chptcha():
 @permission_required(CMSPersmission.BOARDER)
 def boards():
     return render_template('cms/cms_boards.html')
+
+@bp.route('/aboards/',methods=["post"])
+@login_required
+@permission_required(CMSPersmission.BOARDER)
+def boards():
+    form = AddBoardsForm(request.form)
+    if form.validate():
+        name = form.name.data()
+        pass
 
 @bp.route('/comments/')
 @login_required
@@ -162,8 +171,7 @@ class LoginView(views.MethodView):
             else:
                 return self.get(message=u'邮箱或者密码错误')
         else:
-            message = unicode(form.get_error(),'utf-8')
-            return self.get(message=message)
+            return self.get(message=form.get_error())
 
 class RsetPwdView(views.MethodView):
     @login_required

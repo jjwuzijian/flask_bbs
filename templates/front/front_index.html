@@ -19,27 +19,17 @@
 
   <!-- 轮播图 -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active">
-        <a href="#">
-            <img src="https://static-image.xfz.cn/1539052376_789.jpg" alt="...">
-        </a>
-    </div>
-    <div class="item">
-        <a href="#">
-            <img src="https://static-image.xfz.cn/1537511352_611.jpeg" alt="...">
-        </a>
-    </div>
-    <div class="item">
-    <a href="#">
-        <img src="https://static-image.xfz.cn/1538132995_441.png" alt="...">
-    </a>
-    </div>
-    <div class="item">
-    <a href="#">
-        <img src="https://static-image.xfz.cn/1534832411_527.jpg" alt="...">
-    </a>
-    </div>
-    ...
+      {% for banner in banners %}
+          {% if loop.first %}
+              <div class="item active">
+          {% else %}
+              <div class="item">
+          {% endif %}
+                    <a href="{{ banner.link_url }}">
+                        <img src="{{ banner.image_url }}" alt="...">
+                    </a>
+              </div>
+      {% endfor %}
   </div>
 
   <!-- 左右切换控制器 -->
@@ -52,7 +42,7 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
-    </div>
+</div>
 
     <div class="sm-container"></div>
 {% endblock %}

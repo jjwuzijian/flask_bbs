@@ -1,6 +1,29 @@
 {% extends 'cms/cms_base.html' %}
 {% block title %}板块管理{% endblock %}
 {% block page_title %}板块管理{% endblock %}
+{% block head %}
+    <style>
+       .top-box button{
+        float: right;
+    }
+    </style>
+{% endblock %}
+
 {% block main_content %}
-板块管理
+    <div class="top-box">
+        <button class="btn btn-warning" data-toggle="modal" data-target="#banner-dialog">添加新板块</button>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>板块名称</th>
+                <th>帖子数量</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
 {% endblock %}
