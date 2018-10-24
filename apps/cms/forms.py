@@ -43,3 +43,6 @@ class UpdateBannerForm(AddBannerForm):
 
 class AddBoardsForm(BaseForm):
     name = StringField(validators=[InputRequired(message='请输入板块名称')])
+
+class UpdateBoardsForm(AddBoardsForm):
+    board_id = IntegerField(validators=[InputRequired(message='请输入板块ID')])

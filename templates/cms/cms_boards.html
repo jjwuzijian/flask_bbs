@@ -2,6 +2,7 @@
 {% block title %}板块管理{% endblock %}
 {% block page_title %}板块管理{% endblock %}
 {% block head %}
+    <script src="{{ static('cms/js/boards.js') }}"></script>
     <style>
        .top-box button{
         float: right;
@@ -11,7 +12,7 @@
 
 {% block main_content %}
     <div class="top-box">
-        <button class="btn btn-warning" data-toggle="modal" data-target="#banner-dialog">添加新板块</button>
+        <button class="btn btn-warning" data-toggle="modal" data-target="#board-dialog">添加新板块</button>
     </div>
     <table class="table table-bordered">
         <thead>
@@ -23,7 +24,44 @@
             </tr>
         </thead>
         <tbody>
+            {% for board in boards %}
+                <tr data-name="{{ board.name }}"  data-id="{{ board.id }}">
+                    <td>{{ board.name }}</td>
+                    <td>20</td>
+                    <td>{{ board.create_time }}</td>
+                    <td>
+                        <button class="btn btn-defauult btn-xs edit-board-btn">编辑</button>
+                        <button class="btn btn-danger btn-xs delete-board-btn">删除</button>
+                    </td>
+                </tr>
+            {% endfor %}
 
         </tbody>
     </table>
+
+    <!-- Modal -->
+<div class="modal fade" id="board-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">板块</h4>
+      </div>
+      <div class="modal-body">
+          <form action="" class="form-horizontal">
+              <div class="form-group">
+                  <label for="" class="col-sm-2 control-label">名称：</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control" name="name" placeholder="板块名称">
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="save-board-btn">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

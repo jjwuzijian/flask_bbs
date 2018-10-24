@@ -1,8 +1,8 @@
 #endcoding: utf-8
 from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,jsonify
-from .forms import LoginFrom,ResetpwdForm,ResetEmailForm,AddBannerForm,UpdateBannerForm,AddBoardsForm
+from .forms import LoginFrom,ResetpwdForm,ResetEmailForm,AddBannerForm,UpdateBannerForm,AddBoardsForm,UpdateBoardsForm
 from .models import CMSUser,CMSPersmission
-from ..models import BannerModel
+from ..models import BannerModel,BoardsModel
 from .decorators import login_required,permission_required
 from exts import db,mail
 from flask_mail import Message
@@ -45,16 +45,55 @@ def email_chptcha():
 @login_required
 @permission_required(CMSPersmission.BOARDER)
 def boards():
-    return render_template('cms/cms_boards.html')
+    boards = BoardsModel.query.all()
+    return render_template('cms/cms_boards.html',boards=boards)
 
 @bp.route('/aboards/',methods=["post"])
 @login_required
 @permission_required(CMSPersmission.BOARDER)
-def boards():
+def aboards():
     form = AddBoardsForm(request.form)
     if form.validate():
-        name = form.name.data()
-        pass
+        name = form.name.data
+        board = BoardsModel(name=name)
+        db.session.add(board)
+        db.session.commit()
+        return restful.success()
+    else:
+        return restful.params_error(message=form.get_error())
+
+@bp.route('/uboards/',methods=["post"])
+@login_required
+@permission_required(CMSPersmission.BOARDER)
+def uboards():
+    form = UpdateBoardsForm(request.form)
+    if form.validate():
+        board_id = form.board_id.data
+        name = form.name.data
+        board = BoardsModel.query.get(board_id)
+        if board:
+            board.name = name
+            db.session.commit()
+            return restful.success()
+        else:
+            return restful.params_error(message='没有这个板块！')
+    else:
+        return restful.params_error(message=form.get_error())
+
+@bp.route('/dboards/',methods=['POST'])
+@login_required
+def dboards():
+    board_id = request.form.get('board_id')
+    if not board_id:
+        return restful.params_error(message='请传入板块ID')
+
+    board = BoardsModel.query.get(board_id)
+    if not board:
+        return restful.params_error(message='没有这个板块')
+
+    db.session.delete(board)
+    db.session.commit()
+    return restful.success()
 
 @bp.route('/comments/')
 @login_required
