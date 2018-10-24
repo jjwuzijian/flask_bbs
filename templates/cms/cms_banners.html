@@ -5,13 +5,16 @@
 {% endblock %}
 
 {% block head %}
-
+    <script src="https://cdn.staticfile.org/Plupload/2.1.1/moxie.js"></script>
+    <script src="https://cdn.staticfile.org/Plupload/2.1.1/plupload.dev.js"></script>
+    <script src="https://cdn.staticfile.org/qiniu-js-sdk/1.0.14-beta/qiniu.js"></script>
+    <script src="{{ static('common/zlqiniu.js') }}"></script>
+    <script src="{{ static('cms/js/banners.js') }}"></script>
     <style>
     .top-box button{
         float: right;
     }
     </style>
-    <script src="{{ static('cms/js/banners.js') }}"></script>
 {% endblock %}
 
 {% block page_title %}
@@ -72,9 +75,9 @@
               <div class="form-group">
                   <label for="" class="col-sm-2 control-label">图片：</label>
                   <div class="col-sm-7">
-                      <input type="text" class="form-control" name="img-url" placeholder="轮播图图片">
+                      <input type="text" class="form-control" name="img_url" placeholder="轮播图图片">
                   </div>
-                  <button class="btn btn-info col-sm-2">添加图片</button>
+                  <button class="btn btn-info col-sm-2" id="upload-btn">添加图片</button>
               </div>
               <div class="form-group">
                   <label for="" class="col-sm-2 control-label">跳转：</label>

@@ -109,10 +109,9 @@ $(function(){
     });
 });
 
-
 $(function () {
     zlqiniu.setUp({
-        'domain': 'http://127.0.0.1:800/',
+        'domain': 'http://ph2z92m10.bkt.clouddn.com/',
         'browse_btn': 'upload-btn',
         'uptoken_url': '/c/uptoken/',
         'success': function (up,file,info) {

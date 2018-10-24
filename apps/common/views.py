@@ -1,11 +1,12 @@
 # _*_ coding: utf-8 _*_
-from flask import Blueprint,request,make_response
+from flask import Blueprint,request,make_response,jsonify
 from utils import restful,zlcache
 from exts import alidayu
 from utils.captcha import xtcaptcha
 from .forms import SMSCaptchaForm
 from io import BytesIO
 from utils.captcha.xtcaptcha import Captcha
+import qiniu
 
 bp = Blueprint("common",__name__,url_prefix="/c")
 
@@ -47,4 +48,14 @@ def graph_captcha():
     resp = make_response(out.read())
     resp.content_type = 'image/png'
     return  resp
+
+@bp.route('/uptoken/')
+def uptoken():
+    access_key = 'Vwd3UsP_zHMQ01szGkdhJl1jhLJDWI1sX_pg63Jw'
+    secret_key = 'CarYhltNAqluU9b_Mzphj4-5aPfPItXGau-uiY_l'
+    q = qiniu.Auth(access_key,secret_key)
+
+    bucket = 'flask-bbs'
+    token = q.upload_token(bucket)
+    return jsonify({'uptoken':token})
 

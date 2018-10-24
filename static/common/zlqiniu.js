@@ -59,7 +59,7 @@ var zlqiniu = {
 		for(var key in args){
 			params[key] = args[key];
 		}
-		// var uploader = Qiniu.uploader(params);
-		// return uploader;
+		var uploader = Qiniu.uploader(params);
+		return uploader;
 	}
 };

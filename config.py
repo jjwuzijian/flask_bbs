@@ -29,4 +29,4 @@ ALIDAYU_SIGN_NAME = u'小饭桌应用'
 ALIDAYU_TEMPLATE_CODE = 'SMS_68465012'
 
 #图片配置
-image_path = 'static/image/'
+
