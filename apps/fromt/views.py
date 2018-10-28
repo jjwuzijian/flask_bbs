@@ -1,10 +1,11 @@
 #endcoding: utf-8
-from flask import Blueprint,views,render_template,request,session,redirect,url_for
-from .forms import SingnupForm,SigninForm
+from flask import Blueprint,views,render_template,request,session,redirect,url_for,g
+from .forms import SingnupForm,SigninForm,AddPostForm
 from utils import restful
 from .models import FrontUser
-from ..models import BannerModel,BoardsModel
+from ..models import BannerModel,BoardsModel,PostModel
 from exts import db
+from decorators import login_required
 import config
 
 bp = Blueprint("fromt",__name__)
@@ -13,11 +14,39 @@ bp = Blueprint("fromt",__name__)
 def front_index():
     banners = BannerModel.query.order_by(BannerModel.priority.desc()).limit(4)
     boards = BoardsModel.query.all()
+    posts = PostModel.query.all()
     context = {
         'banners':banners,
-        'boards':boards
+        'boards':boards,
+        'posts':posts,
     }
     return render_template('front/front_index.html',**context)
+
+@bp.route('/apost/',methods=['GET','POST'])
+@login_required
+def apost():
+    if request.method == 'GET':
+        boards = BoardsModel.query.all()
+        return render_template('front/front_apost.html',boards=boards)
+    else:
+        form = AddPostForm(request.form)
+        if form.validate():
+            title = form.title.data
+            content = form.content.data
+            board_id = form.board_id.data
+            board = BoardsModel.query.get(board_id)
+            if not board:
+                return restful.params_error(message='没有这个板块！')
+            post = PostModel(title=title,content=content)
+            post.board = board
+            post.author = g.front_user
+            db.session.add(post)
+            db.session.commit()
+            return restful.success()
+        else:
+            return restful.params_error(message=form.get_error())
+
+
 
 class SignupView(views.MethodView):
     def get(self):

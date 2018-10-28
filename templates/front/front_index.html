@@ -42,11 +42,38 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+
+    <div class="post-group">
+        <ul class="post-group-head">
+            <li class="active"><a href="#">最新</a></li>
+            <li><a href="#">精华帖子</a></li>
+            <li><a href="#">点赞最多</a></li>
+            <li><a href="#">评论最多</a></li>
+        </ul>
+        <ul class="post-lisst-group">
+            {% for post in posts %}
+                <li>
+                <div class="author-avatar-group">
+                    <img src="{{ post.author.avatar or url_for('static',filename='common/images/logo.png') }}">
+                </div>
+                <diiv class="post-info-group">
+                    <p class="post-title">{{ post.title }}</p>
+                    <p class="post-info">
+                        <span>作者：{{ post.author.username }}</span>
+                        <span>发表时间：{{ post.create_time }}</span>
+                        <span>评论：0</span>
+                        <span>阅读：0</span>
+                    </p>
+                </diiv>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
     <div class="sm-container">
         <div style="padding-bottom: 10px;">
-            <button class="btn btn-warning btn-block">发布帖子</button>
+            <a href="{{ url_for("fromt.apost") }}" class="btn btn-warning btn-block">发布帖子</a>
         </div>
 
         <div class="list-group">

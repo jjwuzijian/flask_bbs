@@ -1,7 +1,7 @@
 # _*_ coding: utf-8 _*_
 from ..forms import BaseForm
-from wtforms import StringField
-from wtforms.validators import Regexp,EqualTo
+from wtforms import StringField,IntegerField
+from wtforms.validators import Regexp,EqualTo,InputRequired
 from utils import zlcache
 
 class SingnupForm(BaseForm):
@@ -33,3 +33,8 @@ class SigninForm(BaseForm):
     telephone = StringField(validators=[Regexp(r"1[345789]\d{9}", message=u'请输入正确的手机号码！')])
     password = StringField(validators=[Regexp(r"[0-9a-zA-Z\.]{6,20}", message=u'请输入正确格式的密码！')])
     remember = StringField()
+
+class AddPostForm(BaseForm):
+    title = StringField(validators=[InputRequired(message=u'请输入标题！')])
+    content = StringField(validators=[InputRequired(message=u'请输入内容！')])
+    board_id = IntegerField(validators=[InputRequired(message=u"请输入板块ID")])
