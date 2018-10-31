@@ -2,13 +2,14 @@
 from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,jsonify
 from .forms import LoginFrom,ResetpwdForm,ResetEmailForm,AddBannerForm,UpdateBannerForm,AddBoardsForm,UpdateBoardsForm
 from .models import CMSUser,CMSPersmission
-from ..models import BannerModel,BoardsModel
+from ..models import BannerModel,BoardsModel,PostModel,HighlightPostModel
 from .decorators import login_required,permission_required
 from exts import db,mail
 from flask_mail import Message
 from utils import restful,zlcache
 import string,random
 import config
+from flask_paginate import Pagination,get_page_parameter
 
 bp = Blueprint("cms",__name__,url_prefix="/cms")
 
@@ -123,7 +124,40 @@ def fusers():
 @login_required
 @permission_required(CMSPersmission.POSTER)
 def posts():
-    return render_template('cms/cms_posts.html')
+    post_list = PostModel.query.all()
+    return render_template('cms/cms_posts.html',posts=post_list)
+
+@bp.route('/hpost/',methods=['POST'])
+@login_required
+@permission_required(CMSPersmission.POSTER)
+def hpost():
+    post_id = request.form.get('post_id')
+    if not post_id:
+        return restful.params_error('请输入帖子ID！')
+    post = PostModel.query.get(post_id)
+    if not post:
+        return restful.params_error('没有这篇帖子！')
+
+    highlight = HighlightPostModel()
+    highlight.post = post
+    db.session.add(highlight)
+    db.session.commit()
+    return restful.success()
+
+@bp.route('/uhpost/',methods=['POST'])
+@login_required
+@permission_required(CMSPersmission.POSTER)
+def uhpost():
+    post_id = request.form.get('post_id')
+    if not post_id:
+        return restful.params_error('请输入帖子ID！')
+    post = PostModel.query.get(post_id)
+    if not post:
+        return restful.params_error('没有这篇帖子！')
+    highlight = HighlightPostModel.query.filter_by(post_id=post_id).first()
+    db.session.delete(highlight)
+    db.session.commit()
+    return restful.success()
 
 @bp.route('/banners/')
 @login_required
