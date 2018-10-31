@@ -50,24 +50,29 @@
             <li><a href="#">点赞最多</a></li>
             <li><a href="#">评论最多</a></li>
         </ul>
-        <ul class="post-lisst-group">
+        <ul class="post-list-group">
             {% for post in posts %}
                 <li>
                 <div class="author-avatar-group">
                     <img src="{{ post.author.avatar or url_for('static',filename='common/images/logo.png') }}">
                 </div>
-                <diiv class="post-info-group">
-                    <p class="post-title">{{ post.title }}</p>
+                <div class="post-info-group">
+                    <p class="post-title">
+                        <a href="{{ url_for("fromt.post_detail",post_id=post.id) }}">{{ post.title }}</a>
+                    </p>
                     <p class="post-info">
                         <span>作者：{{ post.author.username }}</span>
                         <span>发表时间：{{ post.create_time }}</span>
                         <span>评论：0</span>
                         <span>阅读：0</span>
                     </p>
-                </diiv>
+                </div>
                 </li>
             {% endfor %}
         </ul>
+    <div style="text-align: center;">
+        {{ pagination.links }}
+    </div>
     </div>
 </div>
 
@@ -77,9 +82,18 @@
         </div>
 
         <div class="list-group">
-            <a href="#" class="list-group-item active">所有版块</a>
+            {% if current_board %}
+                <a href="/" class="list-group-item">所有版块</a>
+            {% else %}
+                <a href="/" class="list-group-item active">所有版块</a>
+            {% endif %}
+
                 {% for board in boards %}
-                    <a href="#" class="list-group-item">{{ board.name }}</a>
+                    {% if board.id == current_board %}
+                        <a href="{{ url_for("fromt.front_index",bd=board.id) }}" class="list-group-item active">{{ board.name }}</a>
+                    {% else %}
+                        <a href="{{ url_for("fromt.front_index",bd=board.id) }}" class="list-group-item">{{ board.name }}</a>
+                    {% endif %}
                 {% endfor %}
         </div>
     </div>

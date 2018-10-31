@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 from .views import bp
-from flask import session,g
+from flask import session,g,render_template
 from .models import FrontUser
 import config
 
@@ -11,3 +11,7 @@ def before_request():
         user = FrontUser.query.get(user_id)
         if user:
             g.front_user = user
+
+@bp.errorhandler
+def page_not_found():
+    return render_template('front/front_404.html'),404

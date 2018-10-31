@@ -1,26 +1,68 @@
 #endcoding: utf-8
-from flask import Blueprint,views,render_template,request,session,redirect,url_for,g
-from .forms import SingnupForm,SigninForm,AddPostForm
+from flask import Blueprint,views,render_template,request,session,redirect,url_for,g,abort
+from .forms import SingnupForm,SigninForm,AddPostForm,AddCommentForm
 from utils import restful
 from .models import FrontUser
-from ..models import BannerModel,BoardsModel,PostModel
+from ..models import BannerModel,BoardsModel,PostModel,CommentModel
 from exts import db
 from decorators import login_required
+from flask_paginate import Pagination,get_page_parameter
 import config
 
 bp = Blueprint("fromt",__name__)
 
 @bp.route('/')
 def front_index():
+    board_id = request.args.get('bd',type=int,default=None)
     banners = BannerModel.query.order_by(BannerModel.priority.desc()).limit(4)
     boards = BoardsModel.query.all()
-    posts = PostModel.query.all()
+    page = request.args.get(get_page_parameter(),type=int,default=1)
+    start = (page-1)*config.PER_PAGE
+    end = start + config.PER_PAGE
+    posts = None
+    total = 0
+    if board_id:
+        posts = PostModel.query.filter_by(board_id=board_id).order_by(PostModel.create_time.desc()).slice(start, end)
+        total = PostModel.query.filter_by(board_id=board_id).count()
+    else:
+        posts = PostModel.query.order_by(PostModel.create_time.desc()).slice(start,end)
+        total = PostModel.query.count()
+    pagination = Pagination(bs_version=3,page=page,total=total,outer_window=0,inner_window=2)
     context = {
         'banners':banners,
         'boards':boards,
         'posts':posts,
+        'pagination':pagination,
+        'current_board':board_id,
     }
     return render_template('front/front_index.html',**context)
+
+@bp.route('/p/<post_id>')
+def post_detail(post_id):
+    post = PostModel.query.get(post_id)
+    if not post:
+        abort(404)
+    return render_template('front/front_pdetail.html',post=post)
+
+@bp.route('/acomment/',methods=['POST'])
+@login_required
+def add_comment():
+    form = AddCommentForm(request.form)
+    if form.validate():
+        content = form.content.data
+        post_id = form.post_id.data
+        post = PostModel.query.get(post_id)
+        if post:
+            comment = CommentModel(content=content)
+            comment.post = post
+            comment.author = g.front_user
+            db.session.add(comment)
+            db.session.commit()
+            return restful.success()
+        else:
+            return restful.params_error('没有这个帖子！')
+    else:
+        return restful.params_error(form.get_error())
 
 @bp.route('/apost/',methods=['GET','POST'])
 @login_required

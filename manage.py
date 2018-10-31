@@ -5,7 +5,7 @@ from flask_bbs import create_app
 from exts import db
 from apps.cms import models as cms_models
 from apps.fromt import models as fromt_models
-from apps.models import BannerModel,BoardsModel
+from apps.models import BannerModel,BoardsModel,PostModel
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -78,6 +78,21 @@ def test_permission():
         print(u'有访问者权限')
     else:
         print(u'你没有访问者权限')
+
+@manager.command
+def create_test_post():
+    for x in range(1,205):
+        title = '标题%s' %x
+        content = '内容%s' %x
+        board = BoardsModel.query.first()
+        author = FrontUser.query.first()
+        post = PostModel(title=title,content=content)
+        post.board = board
+        post.author = author
+        db.session.add(post)
+        db.session.commit()
+    print ('添加成功！')
+
 
 if __name__ == "__main__":
     manager.run()
