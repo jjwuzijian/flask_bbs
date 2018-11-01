@@ -124,8 +124,24 @@ def fusers():
 @login_required
 @permission_required(CMSPersmission.POSTER)
 def posts():
-    post_list = PostModel.query.all()
-    return render_template('cms/cms_posts.html',posts=post_list)
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    start = (page - 1) * config.PER_PAGE
+    end = start + config.PER_PAGE
+    posts = None
+    total = 0
+    query_obj = None
+
+    query_obj = db.session.query(PostModel).outerjoin(HighlightPostModel).order_by(HighlightPostModel.create_time.desc(), PostModel.create_time.desc())
+
+    posts = query_obj.slice(start, end)
+    total = query_obj.count()
+    pagination = Pagination(bs_version=3, page=page, total=total, outer_window=0, inner_window=2)
+    context = {
+        'pagination': pagination,
+        'posts': posts,
+    }
+    # post_list = PostModel.query.all()
+    return render_template('cms/cms_posts.html',**context)
 
 @bp.route('/hpost/',methods=['POST'])
 @login_required

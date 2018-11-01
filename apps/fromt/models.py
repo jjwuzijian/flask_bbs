@@ -15,7 +15,7 @@ class FrontUser(db.Model):
     __tablename__ = 'front_user'
     id = db.Column(db.String(100),primary_key=True,default=shortuuid.uuid)
     #unique=True表示不容许出现相同的数据  nullable=False表示不容许出现空值
-    telephone = db.Column(db.String(11),nullable=False,unique=True)
+    telephone = db.Column(db.String(50),nullable=False,unique=True)
     username = db.Column(db.String(50),nullable=False)
     _password = db.Column(db.String(100),nullable=False)
     email = db.Column(db.String(50),unique=True)
