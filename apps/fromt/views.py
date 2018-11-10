@@ -5,7 +5,7 @@ from utils import restful
 from .models import FrontUser
 from ..models import BannerModel,BoardsModel,PostModel,CommentModel,HighlightPostModel
 from exts import db
-from decorators import login_required
+from .decorators import login_required
 from flask_paginate import Pagination,get_page_parameter
 from sqlalchemy.sql import func
 import config

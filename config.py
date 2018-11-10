@@ -11,6 +11,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 CMS_USER_ID = '12321'
 FRONT_USER_ID = '122131'
+USER_ID = 'weqdsddwdda'
+
 
 #set_mail_config
 MAIL_SERVER = 'smtp.qq.com'
